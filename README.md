@@ -114,6 +114,95 @@ Bila Admin memilih opsi 5, maka admin akan di arahkan ke menu awal.
 
 Jika user memasukkan angka selain 1 - 5 maka program akan memberi pesan bahwa pilihan/angka tidak valid
 
+# File Python
+
+import datetime
+
+class SistemPemesananTiket:
+    def __init__(self):
+        self.tujuan = ["Balikpapan", "Samarinda", "Bontang", "Tenggarong", "Kutai Kartanegara"]
+        self.harga = {
+            "Balikpapan": 150000, 
+            "Samarinda": 130000, 
+            "Bontang": 120000, 
+            "Tenggarong": 110000, 
+            "Kutai Kartanegara": 140000
+        }
+        self.pemesanan = []
+
+    def tampilkan_tujuan(self):
+        print("Tujuan yang tersedia:")
+        for i, kota in enumerate(self.tujuan, 1):
+            print(f"{i}. {kota}")
+
+    def pilih_tujuan(self):
+        while True:
+            self.tampilkan_tujuan()
+            pilihan = input("Pilih nomor tujuan Anda: ")
+            try:
+                index = int(pilihan) - 1
+                if 0 <= index < len(self.tujuan):
+                    return self.tujuan[index]
+                else:
+                    print("Pilihan tidak valid. Silakan coba lagi.")
+            except ValueError:
+                print("Masukkan nomor yang valid.")
+
+    def pilih_tanggal(self):
+        while True:
+            tanggal_str = input("Masukkan tanggal keberangkatan (format: DD-MM-YYYY): ")
+            try:
+                tanggal = datetime.datetime.strptime(tanggal_str, "%d-%m-%Y")
+                if tanggal.date() >= datetime.date.today():
+                    return tanggal.strftime("%d-%m-%Y")
+                else:
+                    print("Tanggal harus di masa depan. Silakan coba lagi.")
+            except ValueError:
+                print("Format tanggal tidak valid. Gunakan format DD-MM-YYYY.")
+
+    def pilih_jumlah_tiket(self):
+        while True:
+            try:
+                jumlah = int(input("Masukkan jumlah tiket yang ingin dipesan: "))
+                if jumlah > 0:
+                    return jumlah
+                else:
+                    print("Jumlah tiket harus lebih dari 0.")
+            except ValueError:
+                print("Masukkan angka yang valid.")
+
+    def hitung_total(self, tujuan, jumlah_tiket):
+        return self.harga[tujuan] * jumlah_tiket
+
+    def proses_pemesanan(self):
+        print("Selamat datang di Sistem Pemesanan Tiket Kereta!")
+        tujuan = self.pilih_tujuan()
+        tanggal = self.pilih_tanggal()
+        jumlah_tiket = self.pilih_jumlah_tiket()
+        total_harga = self.hitung_total(tujuan, jumlah_tiket)
+
+        pemesanan_baru = {
+            "Tujuan": tujuan,
+            "Tanggal": tanggal,
+            "Jumlah Tiket": jumlah_tiket,
+            "Total Harga": total_harga
+        }
+        self.pemesanan.append(pemesanan_baru)
+
+        print("\nRincian Pemesanan:")
+        print(f"Tujuan: {tujuan}")
+        print(f"Tanggal: {tanggal}")
+        print(f"Jumlah Tiket: {jumlah_tiket}")
+        print(f"Total Harga: Rp {total_harga:,}")
+
+        konfirmasi = input("\nApakah Anda ingin melanjutkan pemesanan? (y/n): ")
+        if konfirmasi.lower() == 'y':
+            print("Pemesanan berhasil! Terima kasih telah menggunakan layanan kami.")
+        else:
+            print("Pemesanan dibatalkan.")
+
+    def tampilkan_pemesanan(self):
+
 
 
 
